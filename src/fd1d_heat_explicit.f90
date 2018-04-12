@@ -143,8 +143,8 @@ program fd1d_heat_explicit_prb
 
 ! write data to files
   call r8mat_write('h_test01.txt', hmat)
-  call r8vec_write('t_test01.txt', t_num, t)
-  call r8vec_write('x_test01.txt', x_num, x)
+  call r8vec_write('t_test01.txt', t)
+  call r8vec_write('x_test01.txt', x)
 
 ! Deallocate all my dynamic memory
   deallocate(h, stat=dealloc_err)
@@ -293,22 +293,21 @@ contains
 
   end subroutine
 
-  subroutine r8vec_write(output_filename, n, x)
+  subroutine r8vec_write(output_filename, x)
 
     implicit none
 
     integer :: m
-    integer, intent(in) :: n
 
     integer :: j
     character (len=*), intent(in) :: output_filename
     integer :: output_unit_id
-    real (kind=dp), intent(in) :: x(n)
+    real (kind=dp), intent(in) :: x(:)
 
     output_unit_id = 11
     open (unit=output_unit_id, file=output_filename, status='replace')
 
-    do j = 1, n
+    do j = 1, size(x)
       write (output_unit_id, '(2x,g24.16)') x(j)
     end do
 
