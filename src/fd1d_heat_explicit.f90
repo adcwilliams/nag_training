@@ -142,7 +142,7 @@ program fd1d_heat_explicit_prb
   end do
 
 ! write data to files
-  call r8mat_write('h_test01.txt', x_num, t_num, hmat)
+  call r8mat_write('h_test01.txt', hmat)
   call r8vec_write('t_test01.txt', t_num, t)
   call r8vec_write('x_test01.txt', x_num, x)
 
@@ -249,17 +249,20 @@ contains
 
   end subroutine
 
-  subroutine r8mat_write(output_filename, m, n, table)
+  subroutine r8mat_write(output_filename, table)
     implicit none
 
-    integer, intent(in) :: m
-    integer, intent(in) :: n
+    integer :: m
+    integer :: n
 
     integer :: j
     character (len=*), intent(in) :: output_filename
     integer :: output_unit_id
     character (len=30) :: string
     real (kind=dp), intent(in) :: table(:, :)
+
+    m = size(table(:, :), 1)
+    n = size(table(:, :), 2)
 
     output_unit_id = 10
     open (unit=output_unit_id, file=output_filename, status='replace')
