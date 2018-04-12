@@ -13,24 +13,60 @@ program fd1d_heat_explicit_prb
   integer :: alloc_err
 
   real (kind=dp), allocatable :: h(:)
-
-!  real (kind=dp) :: h(x_num)
-  real (kind=dp) :: h_new(x_num)
+  real (kind=dp), allocatable :: h_new(:)
 ! the "matrix" stores all x-values for all t-values
 ! remember Fortran is column major, meaning that rows are contiguous
-  real (kind=dp) :: hmat(x_num, t_num)
+!  real (kind=dp) :: hmat(x_num, t_num)
+  real (kind=dp), allocatable :: hmat(:, :)
   integer :: i
   integer :: j
   real (kind=dp) :: k
 
-  real (kind=dp) :: t(t_num)
+!  real (kind=dp) :: t(t_num)
+  real (kind=dp), allocatable :: t(:)
   real (kind=dp) :: t_max
   real (kind=dp) :: t_min
-  real (kind=dp) :: x(x_num)
+!  real (kind=dp) :: x(x_num)
+  real (kind=dp), allocatable :: x(:)
   real (kind=dp) :: x_max
   real (kind=dp) :: x_min
 
   allocate(h(x_num), stat=alloc_err)
+
+  if (alloc_err /= 0) then
+    print *, "Failed to allocate h"
+    stop
+  end if
+
+  allocate(h_new(x_num), stat=alloc_err)
+
+  if (alloc_err /= 0) then
+    print *, "Failed to allocate h_new"
+    stop
+  end if
+
+  allocate(hmat(x_num, t_num), stat=alloc_err)
+
+  if (alloc_err /= 0) then
+    print *, "Failed to allocate hmat"
+    stop
+  end if
+
+  allocate(t(t_num), stat=alloc_err)
+
+  if (alloc_err /= 0) then
+    print *, "Failed to allocate t"
+    stop
+  end if
+
+  allocate(x(x_num), stat=alloc_err)
+
+  if (alloc_err /= 0) then
+    print *, "Failed to allocate x"
+    stop
+  end if
+
+  print *, "Hey, I allocated all the dynamic arrays!"
 
   write (*, '(a)') ' '
   write (*, '(a)') 'FD1D_HEAT_EXPLICIT_PRB:'
