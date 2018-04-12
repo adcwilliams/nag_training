@@ -106,9 +106,9 @@ contains
   function func(j, x_num, x) result (d)
     implicit none
 
-    integer :: j, x_num
+    integer, intent(in) :: j, x_num
     real (kind=dp) :: d
-    real (kind=dp) :: x(x_num)
+    real (kind=dp), intent(in) :: x(x_num)
 
     d = 0.0e+00_dp
   end function
@@ -116,15 +116,15 @@ contains
   subroutine fd1d_heat_explicit(x_num, x, t, dt, cfl, h, h_new)
     implicit none
 
-    integer :: x_num
+    integer, intent(in) :: x_num
 
-    real (kind=dp) :: cfl
-    real (kind=dp) :: dt
-    real (kind=dp) :: h(x_num)
-    real (kind=dp) :: h_new(x_num)
+    real (kind=dp), intent(in) :: cfl
+    real (kind=dp), intent(in) :: dt
+    real (kind=dp), intent(in) :: h(x_num)
+    real (kind=dp), intent(out) :: h_new(x_num)
     integer :: j
-    real (kind=dp) :: t
-    real (kind=dp) :: x(x_num)
+    real (kind=dp), intent(in) :: t
+    real (kind=dp), intent(in) :: x(x_num)
     real (kind=dp) :: f(x_num)
 
     do j = 1, x_num
@@ -147,16 +147,16 @@ contains
 
     implicit none
 
-    real (kind=dp) :: cfl
+    real (kind=dp), intent(out) :: cfl
     real (kind=dp) :: dx
     real (kind=dp) :: dt
-    real (kind=dp) :: k
-    real (kind=dp) :: t_max
-    real (kind=dp) :: t_min
-    integer :: t_num
-    real (kind=dp) :: x_max
-    real (kind=dp) :: x_min
-    integer :: x_num
+    real (kind=dp), intent(in) :: k
+    real (kind=dp), intent(in) :: t_max
+    real (kind=dp), intent(in) :: t_min
+    integer, intent(in) :: t_num
+    real (kind=dp), intent(in) :: x_max
+    real (kind=dp), intent(in) :: x_min
+    integer, intent(in) :: x_num
 
     dx = (x_max-x_min)/real(x_num-1, kind=dp)
     dt = (t_max-t_min)/real(t_num-1, kind=dp)
