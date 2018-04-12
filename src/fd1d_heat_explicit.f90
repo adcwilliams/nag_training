@@ -1,5 +1,6 @@
 program fd1d_heat_explicit_prb
   use :: types_mod, only: dp
+  use RHS_mod
 
   implicit none
 
