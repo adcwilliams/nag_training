@@ -186,12 +186,12 @@ program fd1d_heat_explicit_prb
 
 contains
 
-  function func(j, x_num, x) result (d)
+  function func(j, x) result (d)
     implicit none
 
-    integer, intent(in) :: j, x_num
+    integer, intent(in) :: j
     real (kind=dp) :: d
-    real (kind=dp), intent(in) :: x(:)
+    real (kind=dp), dimension(:), intent(in) :: x
 
     d = 0.0e+00_dp
   end function
@@ -211,7 +211,7 @@ contains
     real (kind=dp) :: f(x_num)
 
     do j = 1, x_num
-      f(j) = func(j, x_num, x)
+      f(j) = func(j, x)
     end do
 
     h_new(1) = 0.0e+00_dp
