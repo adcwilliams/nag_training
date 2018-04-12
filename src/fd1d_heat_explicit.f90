@@ -133,7 +133,7 @@ program fd1d_heat_explicit_prb
 
 ! the main time integration loop 
   do j = 2, t_num
-    call fd1d_heat_explicit(x_num, x, t(j-1), dt, cfl, h, h_new)
+    call fd1d_heat_explicit(x, t(j-1), dt, cfl, h, h_new)
 
     do i = 1, x_num
       hmat(i, j) = h_new(i)
@@ -196,10 +196,8 @@ contains
     d = 0.0e+00_dp
   end function
 
-  subroutine fd1d_heat_explicit(x_num, x, t, dt, cfl, h, h_new)
+  subroutine fd1d_heat_explicit(x, t, dt, cfl, h, h_new)
     implicit none
-
-    integer, intent(in) :: x_num
 
     real (kind=dp), intent(in) :: cfl
     real (kind=dp), intent(in) :: dt
@@ -208,7 +206,7 @@ contains
     integer :: j
     real (kind=dp), intent(in) :: t
     real (kind=dp), intent(in) :: x(:)
-    real (kind=dp) :: f(x_num)
+    real (kind=dp) :: f(size(x))
 
     do j = 1, x_num
       f(j) = func(j, x)
