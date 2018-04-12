@@ -8,7 +8,13 @@ program fd1d_heat_explicit_prb
 
   real (kind=dp) :: cfl
   real (kind=dp) :: dt
-  real (kind=dp) :: h(x_num)
+
+! error code for failed allocations
+  integer :: alloc_err
+
+  real (kind=dp), allocatable :: h(:)
+
+!  real (kind=dp) :: h(x_num)
   real (kind=dp) :: h_new(x_num)
 ! the "matrix" stores all x-values for all t-values
 ! remember Fortran is column major, meaning that rows are contiguous
@@ -23,6 +29,8 @@ program fd1d_heat_explicit_prb
   real (kind=dp) :: x(x_num)
   real (kind=dp) :: x_max
   real (kind=dp) :: x_min
+
+  allocate(h(x_num), stat=alloc_err)
 
   write (*, '(a)') ' '
   write (*, '(a)') 'FD1D_HEAT_EXPLICIT_PRB:'
