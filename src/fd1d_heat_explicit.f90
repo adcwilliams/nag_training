@@ -11,6 +11,7 @@ program fd1d_heat_explicit_prb
 
 ! error code for failed allocations
   integer :: alloc_err
+  integer :: dealloc_err
 
   real (kind=dp), allocatable :: h(:)
   real (kind=dp), allocatable :: h_new(:)
@@ -144,6 +145,44 @@ program fd1d_heat_explicit_prb
   call r8mat_write('h_test01.txt', x_num, t_num, hmat)
   call r8vec_write('t_test01.txt', t_num, t)
   call r8vec_write('x_test01.txt', x_num, x)
+
+! Deallocate all my dynamic memory
+  deallocate(h, stat=dealloc_err)
+
+  if (dealloc_err /= 0) then
+    print *, "Failed to deallocate h"
+    stop
+  end if
+
+  deallocate(h_new, stat=dealloc_err)
+
+  if (dealloc_err /= 0) then
+    print *, "Failed to deallocate h_new"
+    stop
+  end if
+
+  deallocate(hmat, stat=dealloc_err)
+
+  if (dealloc_err /= 0) then
+    print *, "Failed to deallocate hmat"
+    stop
+  end if
+
+  deallocate(t, stat=dealloc_err)
+
+  if (dealloc_err /= 0) then
+    print *, "Failed to deallocate t"
+    stop
+  end if
+
+  deallocate(x, stat=dealloc_err)
+
+  if (dealloc_err /= 0) then
+    print *, "Failed to deallocate x"
+    stop
+  end if
+
+  print *, "Successfully deallocated dynamic memory"
 
 contains
 
