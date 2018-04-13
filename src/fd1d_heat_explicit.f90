@@ -1,6 +1,7 @@
 program fd1d_heat_explicit_prb
   use :: types_mod, only: dp
   use RHS_mod
+  use CFL_mod
 
   implicit none
 
@@ -187,16 +188,6 @@ program fd1d_heat_explicit_prb
 
 contains
 
-  function func(j, x) result (d)
-    implicit none
-
-    integer, intent(in) :: j
-    real (kind=dp) :: d
-    real (kind=dp), dimension(:), intent(in) :: x
-
-    d = 0.0e+00_dp
-  end function
-
   subroutine fd1d_heat_explicit(x, t, dt, cfl, h, h_new)
     implicit none
 
@@ -222,32 +213,6 @@ contains
 ! set the boundary conditions again
     h_new(1) = 90.0e+00_dp
     h_new(x_num) = 70.0e+00_dp
-  end subroutine
-
-  subroutine fd1d_heat_explicit_cfl(k, t_num, t_min, t_max, x_num, x_min, &
-    x_max, cfl)
-
-    implicit none
-
-    real (kind=dp), intent(out) :: cfl
-    real (kind=dp) :: dx
-    real (kind=dp) :: dt
-    real (kind=dp), intent(in) :: k
-    real (kind=dp), intent(in) :: t_max
-    real (kind=dp), intent(in) :: t_min
-    integer, intent(in) :: t_num
-    real (kind=dp), intent(in) :: x_max
-    real (kind=dp), intent(in) :: x_min
-    integer, intent(in) :: x_num
-
-    dx = (x_max-x_min)/real(x_num-1, kind=dp)
-    dt = (t_max-t_min)/real(t_num-1, kind=dp)
-
-    cfl = k*dt/dx/dx
-
-    write (*, '(a)') ' '
-    write (*, '(a,g14.6)') '  CFL stability criterion value = ', cfl
-
   end subroutine
 
   subroutine r8mat_write(output_filename, table)
